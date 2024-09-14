@@ -1,5 +1,5 @@
 # geronimo-document-summarizer
-Geronimo is a Chainlit-based application that serves as a cliff notes style document summrizer that uses LLMs to compress the content of a document
+Geronimo is a Chainlit-based application that serves as a cliff notes style document summarizer which uses LLMs to compress the content of a document
 
 ## Features
 
