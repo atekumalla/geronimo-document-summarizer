@@ -57,6 +57,12 @@ Geronimo is a Chainlit-based application that serves as a cliff notes style docu
 
 3. Open your browser and navigate to the URL displayed in the terminal.
 
+4. **Evaluation**:
+   ```sh
+   python3 eval.py
+   ```
+   Use this command to use LangSmith to evaluate the model's performance.
+
 ## Usage
 
 - Start a conversation with the Geronimo by typing a message and giving it the text of a document to summarize.
