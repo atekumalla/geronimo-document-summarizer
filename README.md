@@ -6,7 +6,7 @@ Geronimo is a Chainlit-based application that serves as a cliff notes style docu
 ## Prerequisites
 
 - Python 3.7+
-- API keys for OpenAI and/or RunPod (depending on chosen model)
+- API keys for OpenAI and/or RunPod (depending on chosen model) and LangSmith (for running evaluation on datasets)
 
 ## Installation and Setup
 
@@ -61,17 +61,18 @@ Geronimo is a Chainlit-based application that serves as a cliff notes style docu
    ```sh
    python3 eval.py
    ```
-   Use this command to use LangSmith to evaluate the model's performance.
+   Use this command to use LangSmith to evaluate the model's performance. Modify the prompt in "evaluation_prompt" to change how the evaluations are done
 
 ## Usage
 
-- Start a conversation with the Geronimo by typing a message and giving it the text of a document to summarize.
+- Start a conversation with the Geronimo by giving it the text of a document to summarize.
 - The application will process your input, summarize your document and return a summary.
 
 ## Key Components
 
 - `app.py`: Main application file containing the Chainlit setup and message handling logic.
 - `prompts.py`: Contains prompt templates for the model instructing it to summarize docuemnts.
+- `eval.py`: Contains prompt templates for 2 evaluations which can be run on LangSmith to verify and evaluate the model ouptuts
 
 ## Contributing
 
