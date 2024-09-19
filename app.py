@@ -9,6 +9,7 @@ from prompts import SYSTEM_PROMPT
 
 from langsmith.wrappers import wrap_openai
 from langsmith import traceable
+import aiohttp
 
 # Load environment variables
 load_dotenv()
@@ -28,6 +29,11 @@ configurations = {
         "endpoint_url": os.getenv("OPENAI_ENDPOINT"),
         "api_key": os.getenv("OPENAI_API_KEY"),
         "model": "gpt-4"
+    },
+    "ollama_local": {
+        "endpoint_url": "http://localhost:11434",  # Default Ollama API endpoint
+        "api_key": None,  # Ollama doesn't require an API key
+        "model": "llama2"  # Default model, can be changed as needed
     }
 }
 
@@ -35,6 +41,7 @@ configurations = {
 config_key = "openai_gpt-4"
 # config_key = "mistral_7B_instruct"
 #config_key = "mistral_7B"
+# config_key = "ollama_local"
 
 # Get selected configuration
 config = configurations[config_key]
@@ -78,6 +85,17 @@ async def on_message(message: cl.Message):
         async for part in stream:
             if token := part.choices[0].text or "":
                 await response_message.stream_token(token)
+    elif config_key == "ollama_local":
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                f"{config['endpoint_url']}/api/generate",
+                json={"model": config["model"], "prompt": message.content, "stream": True}
+            ) as resp:
+                async for line in resp.content:
+                    if line:
+                        data = json.loads(line)
+                        if token := data.get("response", ""):
+                            await response_message.stream_token(token)
     else:
         stream = await client.chat.completions.create(messages=message_history, stream=True, **gen_kwargs)
         async for part in stream:
